@@ -20,32 +20,48 @@ function App() {
   let trips = useSelector(state => state.trips);
   const dispatchREDUX = useDispatch();
 
-  let [user, setUser] = useState(null);
-  let [loginMsg, setLoginMsg] = useState('Login');
+  let [email, setEmail] = useState(null);
+  let [password, setPassword] = useState(null);
 
   function logInEmail() {
-    if (loginMsg === 'Login') {
-      createUserWithEmailAndPassword(auth, )
-        .then((userCredential) => {
-          // Signed in 
-          const user = userCredential.user;
-          // ...
-        })
-        .catch((error) => {
-          const errorMessage = error.message;
-          alert(errorMessage);
-        });
-    }
-    else {
-      signOut(auth).then(() => {
-        // Sign-out successful.
-      }).catch((error) => {
-        // An error happened.
+    console.log([email, password])
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        // ...
+        navigate('/profile');
+      })
+      .catch((error) => {
+        const errorCode = error.code;
         const errorMessage = error.message;
         alert(errorMessage);
       });
-      navigate('/');
-    }
+  };
+
+  function signUpEmail() {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        // ...
+        navigate('/profile');
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        alert(errorMessage);
+      });
+  }
+
+  function logOut() {
+    signOut(auth).then(() => {
+      // Sign-out successful.
+    }).catch((error) => {
+      // An error happened.
+      const errorMessage = error.message;
+      alert(errorMessage);
+    });
+    navigate('/');
   }
 
   let navigate = useNavigate();
@@ -55,30 +71,13 @@ function App() {
 
   return (
     <div className="App">
-      {/* <div className="head">
-        <div className="title1" onClick={() => { navigate('/') }}
-        >Trip Planner</div>
-
-        {user !== null ?
-          <div className='user-preview'>
-            <img src={user.userPicture} alt="" className="user-img" />
-            <p className="user-name">{user.userName}</p>
-          </div> : null}
-
-        <button className="login1" onClick={() => {
-          logInEmail();
-        }}>{loginMsg}</button>
-      </div> */}
-
-      {/* <div className="mid"> */}
-        <Routes>
-          <Route path='/' element={<Login logInEmail={logInEmail} />} />
-          <Route path='/profile' element={<Profile />} />
-          <Route path='/planning' element={<Planning />} />
-          <Route path='/trips' element={<Trips />} />
-          <Route path='/trips/tripID' element={<Modify />} />
-        </Routes>
-      {/* </div> */}
+      <Routes>
+        <Route path='/' element={<Login setEmail={setEmail} setPassword={setPassword} logInEmail={logInEmail} signUpEmail={signUpEmail} logOut={logOut} />} />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/planning' element={<Planning />} />
+        <Route path='/trips' element={<Trips />} />
+        <Route path='/trips/tripID' element={<Modify />} />
+      </Routes>
     </div>
   );
 }
