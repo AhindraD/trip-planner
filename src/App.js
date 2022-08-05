@@ -3,19 +3,42 @@ import { useSelector } from 'react-redux/es/exports';
 import { useDispatch } from 'react-redux/es/hooks/useDispatch';
 
 import { } from './slices/TripSlice'
-import { Provider } from "react-redux";
-import store from "./store";
+
+import { Route, Routes, useNavigate } from 'react-router-dom';
 
 function App() {
   let trips = useSelector(state => state.trips);
   const dispatchREDUX = useDispatch();
 
+  let navigate = useNavigate();
   return (
-    <Provider store={store}>
       <div className="App">
+      <h1 className="text-3xl font-bold underline">
+        Hello world!
+      </h1>
+        {/* <div className="head">
+          <div className="title1" onClick={() => { navigate('/') }}
+          >Trip Planner</div>
 
+          {user !== null ?
+            <div className='user-preview'>
+              <img src={user.userPicture} alt="" className="user-img" />
+              <p className="user-name">{user.userName}</p>
+            </div> : null}
+
+          <button className="login1" onClick={() => {
+            logInGoogle();
+          }}>{loginMsg}</button>
+        </div>
+
+        <div className="mid">
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/rooms' element={<Rooms />} />
+            <Route path='/rooms/:roomID' element={<Chat />} />
+          </Routes>
+        </div> */}
       </div>
-    </Provider>
   );
 }
 
