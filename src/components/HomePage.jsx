@@ -19,7 +19,6 @@ export default function HomePage() {
         
 
         return () => {
-            second
         }
     }, [])
 
