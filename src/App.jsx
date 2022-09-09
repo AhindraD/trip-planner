@@ -18,6 +18,7 @@ import { useState } from 'react';
 import { db, auth } from './firebase-config';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { collection, getDocs, addDoc, doc, setDoc } from "firebase/firestore";
+import HomePage from './components/HomePage';
 
 function App() {
   //let trips = useSelector(state => state.trips);
@@ -41,7 +42,7 @@ function App() {
         //console.log(user);
         let userId = email.replaceAll('.', '_dot_');
         setUserID(() => userId);
-        navigate('/profile');
+        navigate('/homepage');
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -68,7 +69,7 @@ function App() {
         //const docRef = await addDoc(collection(db, "Users"), userObj);
         //userObj.id = docRef.id;
         setUser(() => userObj);
-        navigate('/profile');
+        navigate('/homepage');
       })
       .catch((error) => {
         const errorMessage = error.message;
@@ -100,10 +101,11 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
-          <Route path='/profile' element={<Profile />} />
-          <Route path='/planning' element={<Planning />} />
-          <Route path='/trips' element={<Trips />} />
-          <Route path='/trips/tripID' element={<Modify />} />
+          <Route path='/homepage/*' element={<HomePage />} />
+          {/* <Route path='/homepage/profile' element={<Profile />} /> */}
+          <Route path='/homepage/planning' element={<Planning />} />
+          <Route path='/homepage/trips' element={<Trips />} />
+          <Route path='/homepage/trips/:tripID' element={<Modify />} />
         </Routes>
       </div>
     </UserContext.Provider>
