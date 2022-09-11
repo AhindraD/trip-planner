@@ -111,6 +111,7 @@ export default function Planning() {
                                     id="start"
                                     type="date"
                                     autoComplete="Date"
+                                    focused
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -122,6 +123,7 @@ export default function Planning() {
                                     id="end"
                                     type="date"
                                     autoComplete="Date"
+                                    focused
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -136,7 +138,7 @@ export default function Planning() {
                                         id="location"
                                         name="location"
                                         label="Location" />}
-                                    onChange={(e) => {
+                                    onInputChange={(e) => {
                                         setInput(e.target.value);
                                         fetchData();
                                     }}
