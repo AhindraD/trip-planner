@@ -40,7 +40,7 @@ const theme = createTheme();
 export default function Planning() {
     let { user, logOut, setUser, username, setUsername, userID, setUserID, token, fetchTrips, addTrips } = useContext(UserContext);
     let [loading, setLoading] = useState(true);
-
+    const statusArr = ["Upcoming", "Completed", "Cancelled"]
     let [cats, setCats] = useState([]);
     let [input, setInput] = useState("paris");//place_name
     let [autoVals, setAutoVals] = useState([]);
@@ -72,7 +72,8 @@ export default function Planning() {
             desc: data.get('desc'),
             start: data.get('start'),
             end: data.get('end'),
-            locations: autoVals,
+            locations: autoVals.map((elem) => elem.place_name),
+            status: data.get('status'),
         };
         //console.log(autoVals);
         //console.log("submit");
@@ -81,13 +82,13 @@ export default function Planning() {
             addTrips(user.userId, [newTrip]);
         }
         else {
-            let allTrips = fetch.UpcomingTrips;
+            let allTrips = fetch[`${data.get('status')}Trips`];
             if (allTrips.length <= 0) {
-                addTrips(user.userId, [newTrip]);
+                addTrips(user.userId, [newTrip], data.get('status'));
             }
             else {
                 allTrips.push(newTrip);
-                addTrips(user.userId, allTrips);
+                addTrips(user.userId, allTrips, data.get('status'));
             }
         }
         goTo("/homepage/trips");
@@ -141,7 +142,7 @@ export default function Planning() {
                                     autoComplete="Description"
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <TextField
                                     required
                                     fullWidth
@@ -153,7 +154,7 @@ export default function Planning() {
                                     focused
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <TextField
                                     required
                                     fullWidth
@@ -187,6 +188,20 @@ export default function Planning() {
                                         //console.log(newValue);
                                         setAutoVals(newValue);
                                     }}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Autocomplete
+                                    disablePortal
+                                    options={statusArr}
+                                    getOptionLabel={(option) => option.toString()}
+                                    sx={{ width: 400 }}
+                                    renderInput={(params) => <TextField {...params}
+                                        required
+                                        fullWidth
+                                        id="status"
+                                        name="status"
+                                        label="Status" />}
                                 />
                             </Grid>
                         </Grid>

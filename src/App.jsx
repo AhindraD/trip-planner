@@ -127,12 +127,26 @@ function App() {
     }
   };
 
-  async function addTrips(id, tripsArr) {
+  async function addTrips(id, tripsArr, status) {
+
     try {
       const userRef = doc(db, "Users", id);
-      await updateDoc(userRef, {
-        UpcomingTrips: tripsArr,
-      });
+
+      if (status === "Upcoming") {
+        await updateDoc(userRef, {
+          UpcomingTrips: tripsArr,
+        });
+      }
+      else if (status === "Completed") {
+        await updateDoc(userRef, {
+          CompletedTrips: tripsArr,
+        });
+      } else if (status === "Cancelled") {
+        await updateDoc(userRef, {
+          CancelledTrips: tripsArr,
+        });
+      }
+
       return true;
     } catch (error) {
       const errorCode = error.code;

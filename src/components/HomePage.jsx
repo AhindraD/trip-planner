@@ -45,6 +45,7 @@ export default function HomePage() {
                                 <Route path='/' element={<Profile />} />
                                 <Route path='/planning' element={<Planning />} />
                                 <Route path='/trips' element={<Trips />} />
+                                <Route path='/trips/:id' element={<Modify />} />
                                 <Route path='/modify' element={<Modify />} />
                                 {/* <Route path='/trips/add' element={<NewTrip />} /> */}
                             </Routes>
