@@ -10,16 +10,16 @@ import Modify from './Modify'
 import NewTrip from './NewTrip'
 
 export default function HomePage() {
-    let [loading, setLoading] = useState(false);
+    let [loading, setLoading] = useState(true);
 
     let { tripsUp, setTripsUp, tripsComp, setTripsComp, tripsCan, setTripsCan, email, setEmail, user, logOut, setUser, logInEmail, signUpEmail, password, setPassword, username, setUsername, userID, setUserID } = useContext(UserContext);
     let goTo = useNavigate();
 
     useEffect(() => {
-        
-
-        return () => {
+        if (user === null) {
+            setUser(() => JSON.parse(localStorage.getItem("userTrips")))
         }
+        setLoading(() => false);
     }, [])
 
 
@@ -31,13 +31,13 @@ export default function HomePage() {
                 loading ? <h1>Loading...</h1> :
                     <div className='display-cont'>
                         <div className="nav-bar" >
-                            <p className="title">Trip<b>Planner</b></p>
+                            <p className="title">Trip<b>PLanner</b></p>
                             <button onClick={() => goTo("/homepage/")} className="home" >Profile</button>
-                            <button onClick={() => goTo("/homepage/planning")} className="my-Ad" >Planning</button>
-                            <button onClick={() => goTo("/homepage/trips")} className="my-interest" >Trips</button>
-                            <button onClick={() => goTo("/homepage/trips/add")} className="sold" >Add Trip</button>
+                            <button onClick={() => goTo("/homepage/trips")} className="my-interest" >My Trips</button>
+                            <button onClick={() => goTo("/homepage/planning")} className="my-Ad" >Plan Trip</button>
+                            <button onClick={() => goTo("/homepage/modify")} className="sold" >Modify Trip</button>
                             <div className="user-name">
-                                {username}</div>
+                                {user.userName}</div>
                         </div>
 
                         <div className='ad-cont'>
@@ -45,8 +45,8 @@ export default function HomePage() {
                                 <Route path='/' element={<Profile />} />
                                 <Route path='/planning' element={<Planning />} />
                                 <Route path='/trips' element={<Trips />} />
-                                <Route path='/trips/:tripID' element={<Modify />} />
-                                <Route path='/trips/add' element={<NewTrip />} />
+                                <Route path='/modify' element={<Modify />} />
+                                {/* <Route path='/trips/add' element={<NewTrip />} /> */}
                             </Routes>
                         </div>
                     </div>

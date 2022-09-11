@@ -157,6 +157,7 @@ button {
     align-items: flex-start;
     justify-content: center;
     gap: 30px;
+    overflow-y: scroll;
 }
 
 .add-ad {
@@ -179,3 +180,27 @@ button {
 .add-ad:hover {
     box-shadow: 3px 3px 7px 1px rgba(0, 0, 0, 0.463);
 }
+
+
+
+
+.prof,
+.trips-cont,
+.trip-ind {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.prof h1 {
+    font-size: 35px;
+}
+
+.prof h2 {
+    font-size: 25px;
+}
+
+.trips-cont {}
+
+.trip-ind {}
