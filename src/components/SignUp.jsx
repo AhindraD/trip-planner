@@ -86,14 +86,14 @@ export default function SignUp() {
                                 >
                                     Sign Up
                                 </button>
-                                {/* <p className="text-sm font-semibold mt-2 pt-1 mb-0">
-                                    Don't have an account?
+                                <p className="text-sm font-semibold mt-2 pt-1 mb-0">
+                                    Already have an account?
                                     <button
                                         className="text-red-600 px-3 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
-                                        onClick={() => { goTo('/signup') }}
-                                    >Register
+                                        onClick={() => { goTo('/login') }}
+                                    >Login
                                     </button>
-                                </p> */}
+                                </p>
                             </div>
                         </form>
                     </div>
