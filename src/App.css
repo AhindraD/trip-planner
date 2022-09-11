@@ -203,4 +203,19 @@ button {
 
 .trips-cont {}
 
-.trip-ind {}
+.trip-ind {
+    width: fit-content;
+    min-height: 100px;
+    padding: 20px;
+    border-radius: 11px;
+    background-color: rgb(255, 211, 218);
+}
+
+.sesc {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.row {
+    margin-bottom: 50px;
+}

@@ -17,7 +17,7 @@ import { useState } from 'react';
 // import { collection, getDocs, addDoc } from "firebase/firestore";
 import { db, auth } from './firebase-config';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { collection, getDoc, addDoc, doc, setDoc } from "firebase/firestore";
+import { collection, getDoc, addDoc, doc, setDoc, updateDoc } from "firebase/firestore";
 import HomePage from './components/HomePage';
 
 function App() {
@@ -110,11 +110,41 @@ function App() {
 
   let navigate = useNavigate();
 
+  async function fetchTrips(id) {
+    try {
+      const userRef = doc(db, "Users", id);
+      const response = await getDoc(userRef);
+      if (response.exists()) {
+        return response.data();
+      } else {
+        return null;
+      }
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert(errorCode, errorMessage);
+      return null;
+    }
+  };
 
+  async function addTrips(id, tripsArr) {
+    try {
+      const userRef = doc(db, "Users", id);
+      await updateDoc(userRef, {
+        UpcomingTrips: tripsArr,
+      });
+      return true;
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert(errorCode, errorMessage);
+      return null;
+    }
+  };
 
 
   return (
-    <UserContext.Provider value={{ tripsUp, setTripsUp, tripsComp, setTripsComp, tripsCan, setTripsCan, email, setEmail, user, logOut, setUser, logInEmail, signUpEmail, password, setPassword, username, setUsername, userID, setUserID, token }}>
+    <UserContext.Provider value={{ tripsUp, setTripsUp, tripsComp, setTripsComp, tripsCan, setTripsCan, email, setEmail, user, logOut, setUser, logInEmail, signUpEmail, password, setPassword, username, setUsername, userID, setUserID, token, fetchTrips, addTrips }}>
       <div className="App">
         <Routes>
           {/* <Route path='/' element={<Login setEmail={setEmail} setPassword={setPassword} logInEmail={logInEmail} signUpEmail={signUpEmail} logOut={logOut} />} /> */}

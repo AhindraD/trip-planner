@@ -7,7 +7,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import MapTwoToneIcon from '@mui/icons-material/MapTwoTone';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -19,6 +19,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useContext } from "react";
 import UserContext from "../Contexts/UserContext";
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
     return (
@@ -37,13 +38,13 @@ const theme = createTheme();
 
 
 export default function Planning() {
-    let { tripsUp, setTripsUp, tripsComp, setTripsComp, tripsCan, setTripsCan, email, setEmail, user, logOut, setUser, logInEmail, signUpEmail, password, setPassword, username, setUsername, userID, setUserID, token } = useContext(UserContext);
+    let { user, logOut, setUser, username, setUsername, userID, setUserID, token, fetchTrips, addTrips } = useContext(UserContext);
     let [loading, setLoading] = useState(true);
 
     let [cats, setCats] = useState([]);
     let [input, setInput] = useState("paris");//place_name
     let [autoVals, setAutoVals] = useState([]);
-
+    const goTo = useNavigate();
 
     async function fetchData() {
         const response = await fetch(
@@ -75,6 +76,21 @@ export default function Planning() {
         };
         //console.log(autoVals);
         //console.log("submit");
+        const fetch = await fetchTrips(user.userId);
+        if (fetch === null) {
+            addTrips(user.userId, [newTrip]);
+        }
+        else {
+            let allTrips = fetch.UpcomingTrips;
+            if (allTrips.length <= 0) {
+                addTrips(user.userId, [newTrip]);
+            }
+            else {
+                allTrips.push(newTrip);
+                addTrips(user.userId, allTrips);
+            }
+        }
+        goTo("/homepage/trips");
     };
 
     useEffect(() => {
@@ -98,7 +114,7 @@ export default function Planning() {
                     }}
                 >
                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <LockOutlinedIcon />
+                        <MapTwoToneIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Add New Trip
@@ -153,7 +169,6 @@ export default function Planning() {
                                 <Autocomplete
                                     disablePortal
                                     multiple
-                                    freeSolo
                                     limitTags={2}
                                     options={cats}
                                     getOptionLabel={(option) => option.place_name.toString()}
@@ -169,6 +184,7 @@ export default function Planning() {
                                         fetchData();
                                     }}
                                     onChange={(event, newValue) => {
+                                        //console.log(newValue);
                                         setAutoVals(newValue);
                                     }}
                                 />
