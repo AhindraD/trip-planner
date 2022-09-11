@@ -42,6 +42,7 @@ export default function Planning() {
 
     let [cats, setCats] = useState([]);
     let [input, setInput] = useState("paris");//place_name
+    let [autoVals, setAutoVals] = useState([]);
 
 
     async function fetchData() {
@@ -51,10 +52,29 @@ export default function Planning() {
         const data = await response.json();
         setCats(data.features);
     }
-
-
+    /*
+        tripObj = {
+            id:,
+            title: ,
+            desc: ,
+            start: start || currDate.toISOString().split('T')[0],
+            end: end || start || currDate.toISOString().split('T')[0],
+            locations: locations.length > 0 ? locations : ['Unnamed location']
+        }
+    */
     const handleSubmit = async (event) => {
-
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        let newTrip = {
+            id: Math.random().toString(32).slice(2, 13),
+            title: data.get('title'),
+            desc: data.get('desc'),
+            start: data.get('start'),
+            end: data.get('end'),
+            locations: autoVals,
+        };
+        //console.log(autoVals);
+        //console.log("submit");
     };
 
     useEffect(() => {
@@ -71,12 +91,15 @@ export default function Planning() {
                 <CssBaseline />
                 <Box
                     sx={{
-                        marginTop: 8,
+                        marginTop: 0,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                     }}
                 >
+                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                        <LockOutlinedIcon />
+                    </Avatar>
                     <Typography component="h1" variant="h5">
                         Add New Trip
                     </Typography>
@@ -129,18 +152,24 @@ export default function Planning() {
                             <Grid item xs={12}>
                                 <Autocomplete
                                     disablePortal
+                                    multiple
+                                    freeSolo
+                                    limitTags={2}
                                     options={cats}
                                     getOptionLabel={(option) => option.place_name.toString()}
                                     sx={{ width: 400 }}
                                     renderInput={(params) => <TextField {...params}
                                         required
                                         fullWidth
-                                        id="location"
-                                        name="location"
-                                        label="Location" />}
+                                        id="locations"
+                                        name="locations"
+                                        label="Locations" />}
                                     onInputChange={(e) => {
                                         setInput(e.target.value);
                                         fetchData();
+                                    }}
+                                    onChange={(event, newValue) => {
+                                        setAutoVals(newValue);
                                     }}
                                 />
                             </Grid>
