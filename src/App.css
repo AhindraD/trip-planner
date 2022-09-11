@@ -31,6 +31,15 @@ button {
     cursor: pointer;
 }
 
+.home-cont{
+    background: rgb(248, 216, 221);
+}
+.home-cont h1{
+    color: rgb(224, 49, 131);
+    text-shadow: 2px 2px greenyellow;
+}
+
+
 .head {
     height: 70px;
     width: 100%;

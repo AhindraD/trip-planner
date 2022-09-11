@@ -162,7 +162,7 @@ function App() {
       <div className="App">
         <Routes>
           {/* <Route path='/' element={<Login setEmail={setEmail} setPassword={setPassword} logInEmail={logInEmail} signUpEmail={signUpEmail} logOut={logOut} />} /> */}
-          <Route path='/' element={<Home />} />
+          <Route path='/' element={<Login />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/homepage/*' element={<HomePage />} />
